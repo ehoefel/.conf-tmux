@@ -62,8 +62,13 @@ case $COMMAND in
     ICON=""
     if [ "$COMMAND" = "bash" ]; then
       ICON=""
-      PARAMS=$(echo $PS_COMMAND | sed "s/$COMMAND //")
+      PARAMS=$(echo $PS_COMMAND | sed "s/.*$COMMAND //")
       NAME=$PARAMS
+      if [ ${#NAME} -gt 12 ]; then
+        NAME=$(echo $NAME | cut -d' ' -f1)
+      fi
+
+      NAME=$(echo $NAME | sed 's/\.\///')
     fi
     ;;
 
