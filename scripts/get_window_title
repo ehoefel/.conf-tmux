@@ -32,14 +32,14 @@ else
   BG_TAB=$BG_TAB_INACTIVE
 fi
 
-COMMAND=$(echo $PS_COMMAND | cut -d' ' -f1)
+COMMAND=$(echo $PS_COMMAND | cut -d' ' -f1 | sed 's/.*\///')
 
 if [ -z "$COMMAND" ]; then
-  COMMAND=$TMUX_COMMAND
+  COMMAND=SHELL
 fi
 
 case $COMMAND in
-  $BASE_SHELL|sh|bash )
+  SHELL )
     ICON=""
     NAME="$PWD/"
     ;;
@@ -55,11 +55,16 @@ case $COMMAND in
 
   docker )
     ICON=""
-    NAME=$(echo $PS_COMMAND | sed 's/.*[ \/]//')
+    NAME=$(echo $PS_COMMAND | sed 's/.*[ \/]//' | sed 's/:.*//')
     ;;
 
   * )
     ICON=""
+    if [ "$COMMAND" = "bash" ]; then
+      ICON=""
+      PARAMS=$(echo $PS_COMMAND | sed "s/$COMMAND //")
+      NAME=$PARAMS
+    fi
     ;;
 
 esac
