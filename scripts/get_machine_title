@@ -1,0 +1,44 @@
+#!/bin/bash
+
+machine_colors=('#A0AA87' '#87A0AA' '#AA9187' '#9187AA')
+
+machine_name="$(cat /etc/hostname | tr [:lower:] [:upper:])"
+
+case "$machine_name" in
+  AMBU)
+    machine_color=${machine_colors[1]}
+    ;;
+  KRETA)
+    machine_color=${machine_colors[2]}
+    ;;
+  ISCHIA)
+    machine_color=${machine_colors[3]}
+    ;;
+  *)
+    machine_color=${machine_colors[0]}
+    ;;
+esac
+
+dir="/sys/class/power_supply"
+if [ -d "$dir" -a "$(/bin/ls -A $dir)" ]; then
+  machine_icon=""
+else
+  machine_icon=""
+fi
+
+right_arrow_icon=""
+
+FG_HEADER=#262626
+BG_TABS=#262626
+
+MACHINE_TEXT="$machine_icon $machine_name"
+
+MACHINE_STYLE_FG=$FG_HEADER
+MACHINE_STYLE_BG=$machine_color
+
+MACHINE_STYLE_1="#[fg=$MACHINE_STYLE_FG,bg=$MACHINE_STYLE_BG,bold]"
+MACHINE_STYLE_2="#[fg=$MACHINE_STYLE_BG,bg=$BG_TABS,nobold]"
+
+LS="$MACHINE_STYLE_1 $MACHINE_TEXT $MACHINE_STYLE_2$right_arrow_icon"
+
+echo $LS

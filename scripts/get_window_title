@@ -1,0 +1,75 @@
+#!/bin/sh
+
+ACTIVE=$1
+TMUX_COMMAND=$2
+NAME=$3
+PID=$4
+PWD=$5
+
+if [ -z "$NAME" ]; then
+  NAME=$TMUX_COMMAND
+fi
+
+PS_COMMAND=$(ps -f --no-headers --ppid $PID -o args)
+
+BASE_SHELL=`basename $SHELL`
+
+BG_TABS="#262626"
+BG_TAB_ACTIVE="#767676"
+FG_TAB_ACTIVE="white"
+BG_TAB_INACTIVE="#303030"
+FG_TAB_INACTIVE="#767676"
+FG_SUCCESS="#91a580"
+FG_ERROR="#91a580"
+
+right_arrow_icon=""
+
+if [ "$ACTIVE" = "1" ]; then
+  FG_TAB=$FG_TAB_ACTIVE
+  BG_TAB=$BG_TAB_ACTIVE
+else
+  FG_TAB=$FG_TAB_INACTIVE
+  BG_TAB=$BG_TAB_INACTIVE
+fi
+
+COMMAND=$(echo $PS_COMMAND | cut -d' ' -f1)
+
+if [ -z "$COMMAND" ]; then
+  COMMAND=$TMUX_COMMAND
+fi
+
+case $COMMAND in
+  $BASE_SHELL|sh|bash )
+    ICON=""
+    NAME="$PWD/"
+    ;;
+
+  work|-bash )
+    ICON=""
+    ;;
+
+  vim|nvim )
+    ICON=""
+    NAME=$PWD
+    ;;
+
+  docker )
+    ICON=""
+    NAME=$(echo $PS_COMMAND | sed 's/.*[ \/]//')
+    ;;
+
+  * )
+    ICON=""
+    ;;
+
+esac
+
+
+ICON="#[fg=$FG_SUCCESS]$ICON"
+NAME="#[fg=$FG_TAB]$NAME"
+
+TITLE=" $ICON $NAME"
+
+echo "#[fg=$BG_TABS,bg=$BG_TAB,bold]$right_arrow_icon#[bg=$BG_TAB,fg=$FG_TAB,bold]"\
+"$TITLE #[fg=$BG_TAB,bg=$BG_TABS,bold]$right_arrow_icon"
+
