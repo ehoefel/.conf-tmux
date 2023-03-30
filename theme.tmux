@@ -39,6 +39,7 @@ NC='#8280A5'
 IC='#ff7f50'
 TC=$NC
 
+G00=#000000 #000
 G01=#080808 #232
 G02=#121212 #233
 G03=#1c1c1c #234
@@ -80,6 +81,7 @@ FG_FOOTER_CALENDAR=white
 # Status options
 tmux_set status-interval 1
 tmux_set status on
+tmux_set status-position top
 
 # Basic status bar colors
 tmux_set status-fg "$FG"
@@ -142,6 +144,10 @@ tmux_set status-justify left
 
 # Current window status
 tmux_set window-status-current-statys "fg=$TC,bg=$BG"
+
+# Window color
+tmux_set window-style "bg=$G00"
+tmux_set window-active-style "bg=$G00"
 
 # Pane border
 tmux_set pane-border-style "fg=$G07,bg=default"

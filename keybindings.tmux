@@ -22,44 +22,42 @@
 
 # Tmux controls
 
-bind -n M-n  if-shell -F "#{pane_marked_set}" "send-keys 'M-n'"  'source ~/.tmux.conf'
+bind -n M-n 'source ~/.config/tmux/tmux.conf'
 
 
 # Navigation
 
-bind -n M-Up if-shell -F "#{pane_marked_set}" "set -g status on \; set -g pane-border-status top \; select-pane -M \; send-keys 'M-Up'" ""
-bind -n M-Down if-shell -F "#{pane_marked_set}" "send-keys 'M-Down'" "set -g status off \; set -gu pane-border-status \; select-pane -m"
-bind -n M-Right if-shell -F "#{pane_marked_set}" "send-keys 'M-Right'" "next-window"
-bind -n M-Left if-shell -F "#{pane_marked_set}" "send-keys 'M-Left'" 'previous-window'
+bind -n M-Right "run-shell '~/.config/scripts/wm ping' \; next-window"
+bind -n M-Left "run-shell '~/.config/scripts/wm ping' \; previous-window"
+
+bind -n M-l "run-shell '~/.config/scripts/wm ping' \; next-window"
+bind -n M-h "run-shell '~/.config/scripts/wm ping' \; previous-window"
 
 # Window operations
-bind -n M-, if-shell -F "#{pane_marked_set}" "send-keys 'M-,'" "new-window -c '#{pane_current_path}' \; rename-window ''"
-bind -n M-r if-shell -F "#{pane_marked_set}" "send-keys 'M-r'" "command-prompt \"rename-window '%%'\""
-bind -n M-. if-shell -F "#{pane_marked_set}" "send-keys 'M-.'" 'kill-pane'
+bind -n M-, "run-shell '~/.config/scripts/wm ping' \; new-window -c '#{pane_current_path}' \; rename-window ''"
+bind -n M-r "command-prompt \"rename-window '%%'\" \; run-shell '~/.config/scripts/wm ping'"
+bind -n M-. "run-shell '~/.config/scripts/wm ping' \; kill-pane"
 
 # Copy mode 
-bind-key    -n              M-:       copy-mode
-bind-key    -n              M-@       paste-buffer
-bind-key    -T copy-mode    '~'       send-keys -X begin-selection
-bind-key    -T copy-mode    v         send-keys -X begin-selection
-bind-key    -T copy-mode    Escape    send-keys -X cancel
-bind-key    -T copy-mode    Home      send-keys -X start-of-line
-bind-key    -T copy-mode    End       send-keys -X end-of-line
-bind-key    -T copy-mode    Left      send-keys -X cursor-left
-bind-key    -T copy-mode    Right     send-keys -X cursor-right
-bind-key    -T copy-mode    Down      send-keys -X cursor-down
-bind-key    -T copy-mode    Up        send-keys -X cursor-up
-bind-key    -T copy-mode    :         send-keys -X copy-selection-and-cancel
-bind-key    -T copy-mode    M-:       send-keys -X copy-selection-and-cancel
+bind-key -n              M-v    copy-mode
+bind-key -T copy-mode-vi v      send-keys -X begin-selection
+bind-key -T copy-mode-vi Escape send-keys -X cancel
+bind-key -T copy-mode-vi Home   send-keys -X start-of-line
+bind-key -T copy-mode-vi End    send-keys -X end-of-line
+bind-key -T copy-mode-vi Left   send-keys -X cursor-left
+bind-key -T copy-mode-vi Right  send-keys -X cursor-right
+bind-key -T copy-mode-vi Down   send-keys -X cursor-down
+bind-key -T copy-mode-vi Up     send-keys -X cursor-up
+bind-key -T copy-mode-vi Enter  send-keys -X copy-pipe-and-cancel "tr -d '\\n' | wl-copy"
 
 # Deprecated
 # Select by number
-bind -n M-1 if-shell -F "#{pane_marked_set}" "send-keys 'M-1'" "select-window -t 1"
-bind -n M-2 if-shell -F "#{pane_marked_set}" "send-keys 'M-2'" "select-window -t 2"
-bind -n M-3 if-shell -F "#{pane_marked_set}" "send-keys 'M-3'" "select-window -t 3"
-bind -n M-4 if-shell -F "#{pane_marked_set}" "send-keys 'M-4'" "select-window -t 4"
-bind -n M-5 if-shell -F "#{pane_marked_set}" "send-keys 'M-5'" "select-window -t 5"
-bind -n M-6 if-shell -F "#{pane_marked_set}" "send-keys 'M-6'" "select-window -t 6"
-bind -n M-7 if-shell -F "#{pane_marked_set}" "send-keys 'M-7'" "select-window -t 7"
-bind -n M-8 if-shell -F "#{pane_marked_set}" "send-keys 'M-8'" "select-window -t 8"
-bind -n M-9 if-shell -F "#{pane_marked_set}" "send-keys 'M-9'" "select-window -t 9"
+bind -n M-1 "run-shell '~/.config/scripts/wm ping'\; select-window -t 1"
+bind -n M-2 "run-shell '~/.config/scripts/wm ping'\; select-window -t 2"
+bind -n M-3 "run-shell '~/.config/scripts/wm ping'\; select-window -t 3"
+bind -n M-4 "run-shell '~/.config/scripts/wm ping'\; select-window -t 4"
+bind -n M-5 "run-shell '~/.config/scripts/wm ping'\; select-window -t 5"
+bind -n M-6 "run-shell '~/.config/scripts/wm ping'\; select-window -t 6"
+bind -n M-7 "run-shell '~/.config/scripts/wm ping'\; select-window -t 7"
+bind -n M-8 "run-shell '~/.config/scripts/wm ping'\; select-window -t 8"
+bind -n M-9 "run-shell '~/.config/scripts/wm ping'\; select-window -t 9"

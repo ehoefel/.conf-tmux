@@ -21,10 +21,12 @@
 ###############################################################################
 
 # Initialize environment, clean up
-set-option -g default-shell /bin/bash
+set -g default-shell /bin/bash
+set -g default-terminal tmux-256color
 set -g base-index 1
 set -g pane-base-index 1
 set -s escape-time 0
+set -s set-clipboard on
 
 # Add ^A, F12 to the prefix list
 set -g prefix ^E
@@ -41,7 +43,6 @@ set -g @tmux_power_theme '#8280A5' # dark slate blue
 run-shell "~/.config/tmux/theme.tmux"
 
 
-set -g window-style "bg=#000000"
 set -g window-active-style "bg=#141414"
 set -g pane-border-style "bg=#181818 fg=#181818"
 set -g pane-active-border-style "bg=#181818 fg=#181818"
